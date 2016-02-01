@@ -79,8 +79,8 @@ namespace ICSharpCode.Profiler.Controller
 			EnumerateSubKeys = 0x0008,
 			Notify = 0x0010,
 			CreateLink = 0x0020,
-			WOW64_32Key = 0x0200,
-			WOW64_64Key = 0x0100,
+			WOW64_32Key = 0x0000,//0x0200,	//win2k²»Ö§³Ö
+			WOW64_64Key = 0x0000,//0x0100,
 			Read = 0x00020019,
 			Write = 0x00020006,
 			Execute = 0x00020019,
