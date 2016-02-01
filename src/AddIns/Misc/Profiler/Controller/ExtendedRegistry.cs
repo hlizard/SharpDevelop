@@ -249,12 +249,20 @@ namespace ICSharpCode.Profiler.Controller
 				if (IntPtr.Size == 8)
 					return true;
 				
-				// this is a 32-bit process -> we need to check whether we run in Wow64 emulation
-				bool is64Bit;
-				if (NativeMethods.IsWow64Process(NativeMethods.GetCurrentProcess(), out is64Bit)) {
-					return is64Bit;
-				} else {
-					throw new Win32Exception(Marshal.GetLastWin32Error());
+				try{
+					// this is a 32-bit process -> we need to check whether we run in Wow64 emulation
+					bool is64Bit;
+					if (NativeMethods.IsWow64Process(NativeMethods.GetCurrentProcess(), out is64Bit)) {
+						return is64Bit;
+					} else {
+						throw new Win32Exception(Marshal.GetLastWin32Error());
+					}
+				} catch(EntryPointNotFoundException ex){	//fix for win2k
+					if (ex.Message.IndexOf("IsWow64Process") > -1){
+						return false;
+					} else {
+						throw;
+					}
 				}
 			}
 		}
